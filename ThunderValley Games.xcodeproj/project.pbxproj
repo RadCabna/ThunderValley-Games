@@ -8,18 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		DDA27F722D4A370B00A05191 /* ThunderValley_GamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F712D4A370B00A05191 /* ThunderValley_GamesApp.swift */; };
-		DDA27F742D4A370B00A05191 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F732D4A370B00A05191 /* ContentView.swift */; };
 		DDA27F762D4A370D00A05191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDA27F752D4A370D00A05191 /* Assets.xcassets */; };
 		DDA27F7A2D4A370D00A05191 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDA27F792D4A370D00A05191 /* Preview Assets.xcassets */; };
+		DDA27F892D4A37DD00A05191 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F882D4A37DD00A05191 /* Game.swift */; };
+		DDA27F8B2D4A383D00A05191 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F8A2D4A383D00A05191 /* Coordinator.swift */; };
+		DDA27F8D2D4A385700A05191 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F8C2D4A385700A05191 /* Loading.swift */; };
+		DDA27F8F2D4A388D00A05191 /* ColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F8E2D4A388D00A05191 /* ColorExtention.swift */; };
+		DDA27F912D4A38A500A05191 /* SizeExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F902D4A38A500A05191 /* SizeExtention.swift */; };
+		DDA27F932D4A391500A05191 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F922D4A391500A05191 /* ViewController.swift */; };
+		DDA27F952D4A397100A05191 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F942D4A397100A05191 /* Background.swift */; };
+		DDA27F972D4A3AAE00A05191 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA27F962D4A3AAE00A05191 /* Models.swift */; };
+		DDE0E9AA2D4A8F9500B96B0A /* helvetica_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DDE0E9A92D4A8F9500B96B0A /* helvetica_bold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DDA27F6E2D4A370B00A05191 /* ThunderValley Games.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ThunderValley Games.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDA27F712D4A370B00A05191 /* ThunderValley_GamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThunderValley_GamesApp.swift; sourceTree = "<group>"; };
-		DDA27F732D4A370B00A05191 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DDA27F752D4A370D00A05191 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DDA27F772D4A370D00A05191 /* ThunderValley_Games.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ThunderValley_Games.entitlements; sourceTree = "<group>"; };
 		DDA27F792D4A370D00A05191 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DDA27F882D4A37DD00A05191 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		DDA27F8A2D4A383D00A05191 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		DDA27F8C2D4A385700A05191 /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
+		DDA27F8E2D4A388D00A05191 /* ColorExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtention.swift; sourceTree = "<group>"; };
+		DDA27F902D4A38A500A05191 /* SizeExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeExtention.swift; sourceTree = "<group>"; };
+		DDA27F922D4A391500A05191 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DDA27F942D4A397100A05191 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		DDA27F962D4A3AAE00A05191 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		DDE0E9A92D4A8F9500B96B0A /* helvetica_bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = helvetica_bold.otf; sourceTree = "<group>"; };
+		DDE0E9AB2D4A8FAC00B96B0A /* ThunderValley-Games-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ThunderValley-Games-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +69,15 @@
 		DDA27F702D4A370B00A05191 /* ThunderValley Games */ = {
 			isa = PBXGroup;
 			children = (
+				DDE0E9AB2D4A8FAC00B96B0A /* ThunderValley-Games-Info.plist */,
 				DDA27F712D4A370B00A05191 /* ThunderValley_GamesApp.swift */,
-				DDA27F732D4A370B00A05191 /* ContentView.swift */,
+				DDA27F802D4A377900A05191 /* Views */,
+				DDA27F852D4A37AD00A05191 /* SubViews */,
+				DDA27F872D4A37BA00A05191 /* Fonts */,
+				DDA27F822D4A378B00A05191 /* Coordinator */,
+				DDA27F862D4A37B400A05191 /* Extentions */,
+				DDA27F842D4A379A00A05191 /* Sounds */,
+				DDA27F832D4A379500A05191 /* Madel */,
 				DDA27F752D4A370D00A05191 /* Assets.xcassets */,
 				DDA27F772D4A370D00A05191 /* ThunderValley_Games.entitlements */,
 				DDA27F782D4A370D00A05191 /* Preview Content */,
@@ -67,6 +91,64 @@
 				DDA27F792D4A370D00A05191 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DDA27F802D4A377900A05191 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DDA27F8C2D4A385700A05191 /* Loading.swift */,
+				DDA27F882D4A37DD00A05191 /* Game.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DDA27F822D4A378B00A05191 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				DDA27F8A2D4A383D00A05191 /* Coordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		DDA27F832D4A379500A05191 /* Madel */ = {
+			isa = PBXGroup;
+			children = (
+				DDA27F962D4A3AAE00A05191 /* Models.swift */,
+			);
+			path = Madel;
+			sourceTree = "<group>";
+		};
+		DDA27F842D4A379A00A05191 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		DDA27F852D4A37AD00A05191 /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				DDA27F922D4A391500A05191 /* ViewController.swift */,
+				DDA27F942D4A397100A05191 /* Background.swift */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		DDA27F862D4A37B400A05191 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				DDA27F8E2D4A388D00A05191 /* ColorExtention.swift */,
+				DDA27F902D4A38A500A05191 /* SizeExtention.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
+		DDA27F872D4A37BA00A05191 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				DDE0E9A92D4A8F9500B96B0A /* helvetica_bold.otf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,6 +211,7 @@
 			files = (
 				DDA27F7A2D4A370D00A05191 /* Preview Assets.xcassets in Resources */,
 				DDA27F762D4A370D00A05191 /* Assets.xcassets in Resources */,
+				DDE0E9AA2D4A8F9500B96B0A /* helvetica_bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +222,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDA27F742D4A370B00A05191 /* ContentView.swift in Sources */,
+				DDA27F892D4A37DD00A05191 /* Game.swift in Sources */,
 				DDA27F722D4A370B00A05191 /* ThunderValley_GamesApp.swift in Sources */,
+				DDA27F8F2D4A388D00A05191 /* ColorExtention.swift in Sources */,
+				DDA27F952D4A397100A05191 /* Background.swift in Sources */,
+				DDA27F912D4A38A500A05191 /* SizeExtention.swift in Sources */,
+				DDA27F932D4A391500A05191 /* ViewController.swift in Sources */,
+				DDA27F972D4A3AAE00A05191 /* Models.swift in Sources */,
+				DDA27F8D2D4A385700A05191 /* Loading.swift in Sources */,
+				DDA27F8B2D4A383D00A05191 /* Coordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +364,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ThunderValley-Games-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -282,9 +373,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -292,7 +382,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "f1.ThunderValley-Games";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -312,6 +403,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ThunderValley-Games-Info.plist";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -320,9 +412,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
@@ -330,7 +421,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "f1.ThunderValley-Games";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
