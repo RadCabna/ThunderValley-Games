@@ -17,7 +17,12 @@ struct Game: View {
     @State private var enemyLinesOnGameField = Arrays.redLinesOnGameField
     @State private var rectangleStroWidth: CGFloat = 0
     @State private var yourTurn = true
-    @State private var stageNumber = 1
+    @State private var selectedRectangleRow: Int = 0
+    @State private var selectedRectangleCol: Int = 0
+    @State private var yourStageNumber = 1
+    @State private var enemyStageNumber = 1
+    @State private var yourThunderCountOnGameField = 0
+    @State private var enemyThunderCountOnGameField = 0
     @State private var yourThunder = "blueThunder"
     @State private var enemyThunder = "redThunder"
     @State private var youCollectNewLine = false
@@ -26,9 +31,9 @@ struct Game: View {
             if yourLineCoordinatesArray.count > oldValue.count {
                 youCollectNewLine = true
             }
-//            else if yourLineCoordinatesArray.count < oldValue.count {
-//                youCollectNewLine = false
-//            }
+            //            else if yourLineCoordinatesArray.count < oldValue.count {
+            //                youCollectNewLine = false
+            //            }
         }
     }
     @State private var enemyCollectNewLine = false
@@ -36,9 +41,10 @@ struct Game: View {
         didSet {
             if enemyLineCoordinatesArray.count > oldValue.count {
                 enemyCollectNewLine = true
-            } else if enemyLineCoordinatesArray.count < oldValue.count {
-                enemyCollectNewLine = false
-            }
+            } 
+//            else if enemyLineCoordinatesArray.count < oldValue.count {
+//                enemyCollectNewLine = false
+//            }
         }
     }
     @State private var yourThunderCount = 9
@@ -160,42 +166,55 @@ struct Game: View {
                                         }
                                     }
                                     .onTapGesture {
-                                        if yourTurn  && yourThunderCount > 0{
-                                            if stageNumber == 1 {
+                                        if yourStageNumber == 1 || enemyStageNumber == 1 {
+                                            if yourTurn && !rectanglesOnGameField[row][col].haveThunder{
                                                 rectanglesOnGameField[row][col].haveThunder.toggle()
                                                 rectanglesOnGameField[row][col].yourThunder = yourTurn
                                                 checkLines()
                                                 yourTurn.toggle()
                                                 showPosibleMoves()
                                                 yourThunderCount -= 1
-                                                print("lineCollect: \(rectanglesOnGameField[row][col].lineCollect)")
-                                            } else if stageNumber == 2 {
-                                                if rectanglesOnGameField[row][col].strokeActive {
-                                                    rectanglesOnGameField[row][col].haveThunder.toggle()
-                                                    checkLines()
-                                                    yourTurn.toggle()
-                                                    showPosibleMoves()
-                                                    stageNumber = 1
-                                                    print("lineCollect: \(rectanglesOnGameField[row][col].lineCollect)")
-                                                }
                                             }
-                                        } else if !yourTurn  && enemyThunderCount > 0{
-                                            if stageNumber == 1 {
+                                            if !yourTurn && !rectanglesOnGameField[row][col].haveThunder{
                                                 rectanglesOnGameField[row][col].haveThunder.toggle()
                                                 rectanglesOnGameField[row][col].yourThunder = yourTurn
                                                 checkLines()
                                                 yourTurn.toggle()
                                                 showPosibleMoves()
                                                 enemyThunderCount -= 1
-                                                print("lineCollect: \(rectanglesOnGameField[row][col].lineCollect)")
-                                            } else if stageNumber == 2 {
-                                                if rectanglesOnGameField[row][col].strokeActive {
-                                                    rectanglesOnGameField[row][col].haveThunder.toggle()
-                                                    checkLines()
-                                                    yourTurn.toggle()
+                                            }
+                                        }
+                                        if yourStageNumber == 2 || enemyStageNumber == 2 {
+                                            if yourTurn && rectanglesOnGameField[row][col].strokeActive {
+                                                rectanglesOnGameField[row][col].haveThunder.toggle()
+                                                checkLines()
+                                                yourTurn.toggle()
+                                                if yourThunderCount > 0 {
+                                                    yourStageNumber = 1
                                                     showPosibleMoves()
-                                                    stageNumber = 1
-                                                    print("lineCollect: \(rectanglesOnGameField[row][col].lineCollect)")
+                                                } else {
+                                                    yourStageNumber = 3
+                                                }
+                                            } else if !yourTurn && rectanglesOnGameField[row][col].strokeActive {
+                                                rectanglesOnGameField[row][col].haveThunder.toggle()
+                                                checkLines()
+                                                yourTurn.toggle()
+                                                if enemyThunderCount > 0 {
+                                                    enemyStageNumber = 1
+                                                    showPosibleMoves()
+                                                } else {
+                                                    enemyStageNumber = 3
+                                                }
+                                            }
+                                        }
+                                        if yourStageNumber == 3 || enemyStageNumber == 3 {
+                                            if yourTurn {
+                                                if rectanglesOnGameField[row][col].yourThunder &&
+                                                    rectanglesOnGameField[row][col].haveThunder && !arrayContainsSelectedRectangleByYou() {
+                                                    rectanglesOnGameField[row][col].isSelect = true
+                                                }
+                                                if arrayContainsSelectedRectangleByYou() {
+                                                    
                                                 }
                                             }
                                         }
@@ -246,18 +265,31 @@ struct Game: View {
             .ignoresSafeArea()
         }
         
+        .onChange(of: yourThunderCount) { _ in
+            if yourThunderCount <= 0 {
+                yourStageNumber = 3
+            }
+        }
+        
+        .onChange(of: enemyThunderCount) { _ in
+            if enemyThunderCount <= 0 {
+                enemyStageNumber = 3
+            }
+        }
+        
         .onChange(of: youCollectNewLine) { _ in
             if youCollectNewLine {
-                stageNumber = 2
+                yourStageNumber = 2
                 yourTurn = true
                 whenYouCollectLines()
                 youCollectNewLine = false
+                print("yourStageNumber = 2")
             }
         }
         
         .onChange(of: enemyCollectNewLine) { _ in
             if enemyCollectNewLine {
-                stageNumber = 2
+                enemyStageNumber = 2
                 yourTurn = false
                 whenEnemyCollectLines()
                 enemyCollectNewLine = false
@@ -273,7 +305,30 @@ struct Game: View {
         }
     }
     
+    func findSelectedRectangleCoordinates() {
+        for i in 0..<rectanglesOnGameField.count {
+            for j in 0..<rectanglesOnGameField[i].count {
+                if rectanglesOnGameField[i][j].isSelect {
+                    selectedRectangleRow = i
+                    selectedRectangleCol = j
+                }
+            }
+        }
+    }
+    
+    func arrayContainsSelectedRectangleByYou() -> Bool {
+        for i in 0..<rectanglesOnGameField.count {
+            for j in 0..<rectanglesOnGameField[i].count {
+                if rectanglesOnGameField[i][j].isSelect {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
     func whenYouCollectLines() {
+        var elementWithSrokeCount = 0
         for i in 0..<rectanglesOnGameField.count {
             for j in 0..<rectanglesOnGameField[i].count {
                 if rectanglesOnGameField[i][j].haveThunder && !rectanglesOnGameField[i][j].yourThunder && !rectanglesOnGameField[i][j].lineCollect{
@@ -284,9 +339,27 @@ struct Game: View {
                 }
             }
         }
+        for i in 0..<rectanglesOnGameField.count {
+            for j in 0..<rectanglesOnGameField[i].count {
+                if rectanglesOnGameField[i][j].strokeActive {
+                    elementWithSrokeCount += 1
+                }
+            }
+        }
+        if elementWithSrokeCount == 0 {
+            for i in 0..<rectanglesOnGameField.count {
+                for j in 0..<rectanglesOnGameField[i].count {
+                    if rectanglesOnGameField[i][j].haveThunder && !rectanglesOnGameField[i][j].yourThunder {
+                        rectanglesOnGameField[i][j].strokeActive = true
+                        rectanglesOnGameField[i][j].strokeColor = Color.blue
+                    }
+                }
+            }
+        }
     }
     
     func whenEnemyCollectLines() {
+        var elementWithSrokeCount = 0
         for i in 0..<rectanglesOnGameField.count {
             for j in 0..<rectanglesOnGameField[i].count {
                 if rectanglesOnGameField[i][j].haveThunder && rectanglesOnGameField[i][j].yourThunder && !rectanglesOnGameField[i][j].lineCollect{
@@ -297,9 +370,34 @@ struct Game: View {
                 }
             }
         }
+        for i in 0..<rectanglesOnGameField.count {
+            for j in 0..<rectanglesOnGameField[i].count {
+                if rectanglesOnGameField[i][j].strokeActive {
+                    elementWithSrokeCount += 1
+                }
+            }
+        }
+        if elementWithSrokeCount == 0 {
+            for i in 0..<rectanglesOnGameField.count {
+                for j in 0..<rectanglesOnGameField[i].count {
+                    if rectanglesOnGameField[i][j].haveThunder && rectanglesOnGameField[i][j].yourThunder {
+                        rectanglesOnGameField[i][j].strokeActive = true
+                        rectanglesOnGameField[i][j].strokeColor = Color.blue
+                    }
+                }
+            }
+        }
     }
     
     func startTimerForRectangleStroke() {
+        withAnimation(Animation.easeOut(duration: 0.5)) {
+            rectangleStroWidth = 3
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(Animation.easeOut(duration: 0.7)) {
+                rectangleStroWidth = 0
+            }
+        }
         rectangleStrokeWidthTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: true) { _ in
             withAnimation(Animation.easeOut(duration: 0.5)) {
                 rectangleStroWidth = 3
@@ -344,7 +442,7 @@ struct Game: View {
         checkLineMethod(name: "checkMiddleRightLine", rx1: 4, ry1: 0, rx2: 4, ry2: 1, rx3: 4, ry3: 2, lx1: 5, ly1: 1)
     }
     
-   
+    
     
     func checkLineMethod(name: String, rx1: Int, ry1: Int, rx2: Int, ry2: Int, rx3: Int, ry3: Int, lx1: Int, ly1: Int) {
         if rectanglesOnGameField[rx1][ry1].haveThunder &&
@@ -357,10 +455,8 @@ struct Game: View {
                 rectanglesOnGameField[rx1][ry1].lineCollect = true
                 rectanglesOnGameField[rx2][ry2].lineCollect = true
                 rectanglesOnGameField[rx3][ry3].lineCollect = true
-                print("whyFalse??")
                 if !yourLineCoordinatesArray.contains(where: {$0 == (lx1, ly1)}) {
                     yourLineCoordinatesArray.append((lx1, ly1))
-                    print("yourLineArrayAppend: \(yourLineCoordinatesArray)")
                 }
                 
             } else {
@@ -370,37 +466,33 @@ struct Game: View {
                 rectanglesOnGameField[rx3][ry3].lineCollect = true
                 if !enemyLineCoordinatesArray.contains(where: {$0 == (lx1, ly1)}) {
                     enemyLineCoordinatesArray.append((lx1, ly1))
-                    print("enemyLineArrayAppend: \(enemyLineCoordinatesArray)")
                 }
                 
             }
         } else {
             linesOnGameField[lx1][ly1].lineActive = false
             enemyLinesOnGameField[lx1][ly1].lineActive = false
-//            rectanglesOnGameField[rx1][ry1].lineCollect = false
-//            rectanglesOnGameField[rx2][ry2].lineCollect = false
-//            rectanglesOnGameField[rx3][ry3].lineCollect = false
-            print("ThatsWhyFalse??")
+            //            rectanglesOnGameField[rx1][ry1].lineCollect = false
+            //            rectanglesOnGameField[rx2][ry2].lineCollect = false
+            //            rectanglesOnGameField[rx3][ry3].lineCollect = false
             if yourLineCoordinatesArray.contains(where: {$0 == (lx1, ly1)}) {
                 yourLineCoordinatesArray.removeAll(where: {$0 == (lx1, ly1)})
-                print("yourLineArrayRemove: \(yourLineCoordinatesArray)")
             }
             if enemyLineCoordinatesArray.contains(where: {$0 == (lx1, ly1)}) {
                 enemyLineCoordinatesArray.removeAll(where: {$0 == (lx1, ly1)})
-                print("enemyLineArrayRemove: \(enemyLineCoordinatesArray)")
             }
         }
     }
     
-    func notInLineNotCollect() {
-        for i in 0..<rectanglesOnGameField.count {
-            for j in 0..<rectanglesOnGameField[i].count {
-                if !rectanglesOnGameField[i][j].haveThunder {
-                    rectanglesOnGameField[i][j].lineCollect = false
-                }
-            }
-        }
-    }
+    //    func notInLineNotCollect() {
+    //        for i in 0..<rectanglesOnGameField.count {
+    //            for j in 0..<rectanglesOnGameField[i].count {
+    //                if !rectanglesOnGameField[i][j].haveThunder {
+    //                    rectanglesOnGameField[i][j].lineCollect = false
+    //                }
+    //            }
+    //        }
+    //    }
     
 }
 
