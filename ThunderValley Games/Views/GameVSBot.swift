@@ -1,17 +1,15 @@
 //
-//  Game.swift
+//  GameVSBot.swift
 //  ThunderValley Games
 //
-//  Created by Алкександр Степанов on 29.01.2025.
+//  Created by Алкександр Степанов on 01.02.2025.
 //
 
 import SwiftUI
 
-struct Game: View {
-    @AppStorage("yourThunderSet") var yourThunderSet = 1
+struct GameVSBot: View {
     @State private var offsetX: CGFloat = 0
     @State private var offsetY: CGFloat = 0
-    @State private var shadowOpacity: CGFloat = 0
     @State private var translationX: CGFloat = 0
     @State private var translationY: CGFloat = 0
     @State private var rectanglesOnGameField = Arrays.rectanglesOnGameField
@@ -48,9 +46,6 @@ struct Game: View {
     @State private var rectangleStrokeWidthTimer: Timer? = nil
     @State private var youCreateLine = false
     @State private var enemyCreateLine = false
-    @State private var playerOneWin = false
-    @State private var playerTwoWin = false
-    @State private var pauseTapped = false
     var body: some View {
         ZStack {
             Background()
@@ -59,175 +54,158 @@ struct Game: View {
                 let width = geometry.size.width
                 let isLandscape = width > height
                 if isLandscape {
-                    ZStack {
-                        Image("pauseButton")
+                    Image("pauseButton")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: width*0.06)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(width*0.03)
+                        .onTapGesture {
+                            yourTurn.toggle()
+                            yourThunderCount -= 1
+                        }
+                    HStack {
+                        Image("playerFrame")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: width*0.06)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                            .padding(width*0.03)
-                            .onTapGesture {
-                                pauseTapped.toggle()
-                            }
-                        HStack {
-                            Image("playerFrame")
+                            .frame(width: width*0.21)
+                            .overlay(
+                                VStack {
+                                    HStack {
+                                        Text("PLAYER 1")
+                                            .font(Font.custom("Helvetica-bold", size: width*0.015))
+                                            .foregroundColor(.white)
+                                            .shadow(color: .black, radius: 1)
+                                            .shadow(color: .black, radius: 1)
+                                        Spacer()
+                                        Text(yourTurn ? "YOUR MOVE" : "WAITING")
+                                            .font(Font.custom("Helvetica-bold", size: width*0.015))
+                                            .foregroundColor(.white)
+                                            .shadow(color: .black, radius: 1)
+                                            .shadow(color: .black, radius: 1)
+                                    }
+                                    .padding(.horizontal)
+                                    Spacer()
+                                    LazyVGrid(columns: Array(repeating: GridItem(.fixed(width*0.025)), count: 5), spacing: 0) {
+                                        ForEach(0..<yourThunderCount, id: \.self) { id in
+                                            Image(yourThunder)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: width*0.028)
+                                        }
+                                    }
+                                    Spacer()
+                                }
+                                    .padding(.vertical)
+                            )
+                        ZStack {
+                            Image("gameField")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: width*0.21)
-                                .overlay(
-                                    VStack {
-                                        HStack {
-                                            Text("PLAYER 1")
-                                                .font(Font.custom("Helvetica-bold", size: width*0.015))
-                                                .foregroundColor(.white)
-                                                .shadow(color: .black, radius: 1)
-                                                .shadow(color: .black, radius: 1)
-                                            Spacer()
-                                            Text(yourTurn ? "YOUR MOVE" : "WAITING")
-                                                .font(Font.custom("Helvetica-bold", size: width*0.015))
-                                                .foregroundColor(.white)
-                                                .shadow(color: .black, radius: 1)
-                                                .shadow(color: .black, radius: 1)
-                                        }
-                                        .padding(.horizontal)
-                                        Spacer()
-                                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(width*0.025)), count: 5), spacing: 0) {
-                                            ForEach(0..<yourThunderCount, id: \.self) { id in
-                                                Image(yourThunder)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: width*0.028)
-                                            }
-                                        }
-                                        Spacer()
-                                    }
-                                        .padding(.vertical)
-                                )
+                                .frame(width: width*0.42)
+                                .offset(y: -height*0.01)
+                            Image("playingFieldNoRectangles")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: width*0.28)
                             ZStack {
-                                Image("gameField")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width*0.42)
-                                    .offset(y: -height*0.01)
-                                Image("playingFieldNoRectangles")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: width*0.28)
-                                ZStack {
-                                    ForEach(0..<linesOnGameField.count, id: \.self) { row in
-                                        ForEach(0..<linesOnGameField[row].count, id: \.self) { col in
-                                            if linesOnGameField[row][col].lineActive {
-                                                Image(linesOnGameField[row][col].itemName)
-                                                    .scaleEffect(x: screenWidth/932, y: screenWidth/932)
-                                                    .offset(
-                                                        x: linesOnGameField[row][col].positionX * screenWidth/932,
-                                                        y: linesOnGameField[row][col].positionY * screenWidth/932
-                                                    )
-                                            }
-                                        }
-                                    }
-                                }
-                                ZStack {
-                                    ForEach(0..<enemyLinesOnGameField.count, id: \.self) { row in
-                                        ForEach(0..<enemyLinesOnGameField[row].count, id: \.self) { col in
-                                            if enemyLinesOnGameField[row][col].lineActive {
-                                                Image(enemyLinesOnGameField[row][col].itemName)
-                                                    .scaleEffect(x: screenWidth/932, y: screenWidth/932)
-                                                    .offset(
-                                                        x: enemyLinesOnGameField[row][col].positionX * screenWidth/932,
-                                                        y: enemyLinesOnGameField[row][col].positionY * screenWidth/932
-                                                    )
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                                ForEach(0..<rectanglesOnGameField.count, id: \.self) { row in
-                                    ForEach(0..<rectanglesOnGameField[row].count, id: \.self) { col in
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 1.0)
-                                                .frame(width: width*0.025, height: width*0.025)
-                                                .foregroundColor(.black)
-                                                .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
-                                            if rectanglesOnGameField[row][col].strokeActive {
-                                                RoundedRectangle(cornerRadius: 1.0)
-                                                    .stroke(lineWidth: rectangleStroWidth)
-                                                    .frame(width: width*0.025, height: width*0.025)
-                                                    .foregroundColor(rectanglesOnGameField[row][col].strokeColor)
-                                                    .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
-                                            }
-                                            if rectanglesOnGameField[row][col].haveThunder {
-                                                Image(rectanglesOnGameField[row][col].yourThunder ? yourThunder : enemyThunder)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: width*0.015)
-                                                    .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
-                                            }
-                                        }
-                                        .onTapGesture {
-                                            makeStep(row: row, col: col)
+                                ForEach(0..<linesOnGameField.count, id: \.self) { row in
+                                    ForEach(0..<linesOnGameField[row].count, id: \.self) { col in
+                                        if linesOnGameField[row][col].lineActive {
+                                            Image(linesOnGameField[row][col].itemName)
+                                                .scaleEffect(x: screenWidth/932, y: screenWidth/932)
+                                                .offset(
+                                                    x: linesOnGameField[row][col].positionX * screenWidth/932,
+                                                    y: linesOnGameField[row][col].positionY * screenWidth/932
+                                                )
                                         }
                                     }
                                 }
                             }
-                            Image("playerFrame")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: width*0.21)
-                                .overlay(
-                                    VStack {
-                                        HStack {
-                                            Text("PLAYER 2")
-                                                .font(Font.custom("Helvetica-bold", size: width*0.015))
-                                                .foregroundColor(.white)
-                                                .shadow(color: .black, radius: 1)
-                                                .shadow(color: .black, radius: 1)
-                                            Spacer()
-                                            Text(!yourTurn ? "YOUR MOVE" : "WAITING")
-                                                .font(Font.custom("Helvetica-bold", size: width*0.015))
-                                                .foregroundColor(.white)
-                                                .shadow(color: .black, radius: 1)
-                                                .shadow(color: .black, radius: 1)
+                            ZStack {
+                                ForEach(0..<enemyLinesOnGameField.count, id: \.self) { row in
+                                    ForEach(0..<enemyLinesOnGameField[row].count, id: \.self) { col in
+                                        if enemyLinesOnGameField[row][col].lineActive {
+                                            Image(enemyLinesOnGameField[row][col].itemName)
+                                                .scaleEffect(x: screenWidth/932, y: screenWidth/932)
+                                                .offset(
+                                                    x: enemyLinesOnGameField[row][col].positionX * screenWidth/932,
+                                                    y: enemyLinesOnGameField[row][col].positionY * screenWidth/932
+                                                )
                                         }
-                                        .padding(.horizontal)
-                                        Spacer()
-                                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(width*0.025)), count: 5), spacing: 0) {
-                                            ForEach(0..<enemyThunderCount, id: \.self) { id in
-                                                Image(enemyThunder)
-                                                    .resizable()
-                                                    .scaledToFit()
-                                                    .frame(width: width*0.028)
-                                            }
-                                        }
-                                        Spacer()
                                     }
-                                        .padding(.vertical)
-                                )
+                                }
+                            }
+                            
+                            ForEach(0..<rectanglesOnGameField.count, id: \.self) { row in
+                                ForEach(0..<rectanglesOnGameField[row].count, id: \.self) { col in
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 1.0)
+                                            .frame(width: width*0.025, height: width*0.025)
+                                            .foregroundColor(.black)
+                                            .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
+                                        if rectanglesOnGameField[row][col].strokeActive {
+                                            RoundedRectangle(cornerRadius: 1.0)
+                                                .stroke(lineWidth: rectangleStroWidth)
+                                                .frame(width: width*0.025, height: width*0.025)
+                                                .foregroundColor(rectanglesOnGameField[row][col].strokeColor)
+                                                .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
+                                        }
+                                        if rectanglesOnGameField[row][col].haveThunder {
+                                            Image(rectanglesOnGameField[row][col].yourThunder ? yourThunder : enemyThunder)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: width*0.015)
+                                                .offset(x: rectanglesOnGameField[row][col].positionX * screenWidth/932, y: rectanglesOnGameField[row][col].positionY * screenWidth/932)
+                                        }
+                                    }
+                                    .onTapGesture {
+                                       makeSteps(row: row, col: col)
+                                    }
+                                }
+                            }
                         }
-                        if pauseTapped {
-                            Pause(pauseTapped: $pauseTapped)
-                        }
+                        Image("playerFrame")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: width*0.21)
+                            .overlay(
+                                VStack {
+                                    HStack {
+                                        Text("PLAYER 2")
+                                            .font(Font.custom("Helvetica-bold", size: width*0.015))
+                                            .foregroundColor(.white)
+                                            .shadow(color: .black, radius: 1)
+                                            .shadow(color: .black, radius: 1)
+                                        Spacer()
+                                        Text(!yourTurn ? "YOUR MOVE" : "WAITING")
+                                            .font(Font.custom("Helvetica-bold", size: width*0.015))
+                                            .foregroundColor(.white)
+                                            .shadow(color: .black, radius: 1)
+                                            .shadow(color: .black, radius: 1)
+                                    }
+                                    .padding(.horizontal)
+                                    Spacer()
+                                    LazyVGrid(columns: Array(repeating: GridItem(.fixed(width*0.025)), count: 5), spacing: 0) {
+                                        ForEach(0..<enemyThunderCount, id: \.self) { id in
+                                            Image(enemyThunder)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: width*0.028)
+                                        }
+                                    }
+                                    Spacer()
+                                }
+                                    .padding(.vertical)
+                            )
                     }
+                    
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 } else {
                     
                 }
             }
             .ignoresSafeArea()
-        }
-        
-        
-        
-        .onChange(of: yourThunderCountOnGameField) { _ in
-            if yourThunderCount + yourThunderCountOnGameField <= 2 {
-                playerTwoWin = true
-            }
-        }
-        
-        .onChange(of: enemyThunderCountOnGameField) { _ in
-            if enemyThunderCount + enemyThunderCountOnGameField <= 2 {
-                playerOneWin = true
-            }
         }
         
         .onChange(of: yourThunderCount) { _ in
@@ -274,10 +252,6 @@ struct Game: View {
             }
         }
         
-        .onChange(of: pauseTapped) { _ in
-            showShadow()
-        }
-        
         .onAppear {
             AppDelegate().setOrientation(to: .landscapeLeft)
             startTimerForRectangleStroke()
@@ -287,19 +261,7 @@ struct Game: View {
         }
     }
     
-    func showShadow() {
-        if playerOneWin || playerTwoWin || pauseTapped{
-                withAnimation() {
-                    shadowOpacity = 0.7
-            }
-        } else {
-                withAnimation() {
-                    shadowOpacity = 0
-            }
-        }
-    }
-    
-    func makeStep(row: Int, col: Int) {
+    func makeSteps(row: Int, col: Int) {
         if yourStageNumber == 1 || enemyStageNumber == 1 {
             if yourTurn && !rectanglesOnGameField[row][col].haveThunder && yourStageNumber == 1{
                 rectanglesOnGameField[row][col].haveThunder.toggle()
@@ -308,7 +270,6 @@ struct Game: View {
                 yourTurn.toggle()
                 showPosibleMoves()
                 yourThunderCount -= 1
-                yourThunderCountOnGameField += 1
                 print("your step on Stage one")
             }
             if !yourTurn && !rectanglesOnGameField[row][col].haveThunder && enemyStageNumber == 1{
@@ -318,7 +279,6 @@ struct Game: View {
                 yourTurn.toggle()
                 showPosibleMoves()
                 enemyThunderCount -= 1
-                enemyThunderCountOnGameField += 1
                 print("enemy step on Stage one")
             }
         }
@@ -326,7 +286,6 @@ struct Game: View {
             if yourTurn && rectanglesOnGameField[row][col].strokeActive &&
                 rectanglesOnGameField[row][col].haveThunder {
                 rectanglesOnGameField[row][col].haveThunder.toggle()
-                enemyThunderCountOnGameField -= 1
                 checkLines()
                 yourTurn.toggle()
                 print("your step on Stage two")
@@ -340,7 +299,6 @@ struct Game: View {
             } else if !yourTurn && rectanglesOnGameField[row][col].strokeActive &&
                         rectanglesOnGameField[row][col].haveThunder {
                 rectanglesOnGameField[row][col].haveThunder.toggle()
-                yourThunderCountOnGameField -= 1
                 checkLines()
                 yourTurn.toggle()
                 print("enemy step on Stage two")
@@ -389,24 +347,6 @@ struct Game: View {
                }
            }
         }
-    }
-    
-    func restartGame() {
-        yourThunderCount = 9
-        enemyThunderCount = 9
-        yourThunderCountOnGameField = 0
-        enemyThunderCountOnGameField = 0
-        for i in 0..<rectanglesOnGameField.count {
-            for j in 0..<rectanglesOnGameField[i].count {
-                rectanglesOnGameField[i][j].haveThunder = false
-                rectanglesOnGameField[i][j].lineCollect = false
-                rectanglesOnGameField[i][j].strokeActive = false
-                rectanglesOnGameField[i][j].isSelect = false
-            }
-        }
-        stopTimer()
-        startTimerForRectangleStroke()
-        showPosibleMoves()
     }
     
     func clearPlate() {
@@ -587,11 +527,6 @@ struct Game: View {
         }
     }
     
-    func stopTimer() {
-        rectangleStrokeWidthTimer?.invalidate()
-        rectangleStrokeWidthTimer = nil
-    }
-    
     func showPosibleMoves() {
         for i in 0..<rectanglesOnGameField.count {
             for j in 0..<rectanglesOnGameField[i].count {
@@ -669,5 +604,5 @@ struct Game: View {
 }
 
 #Preview {
-    Game()
+    GameVSBot()
 }

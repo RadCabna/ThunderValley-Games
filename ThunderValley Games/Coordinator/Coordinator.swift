@@ -12,7 +12,7 @@ enum CoordinatorView: Equatable {
 //    case first
 //    case second
     case loading
-//    case mainMenu
+    case mainMenu
 //    case settings
 //    case howToPlay
 //    case yourCivilization
@@ -28,8 +28,8 @@ final class Coordinator: ObservableObject {
         switch pathItem {
         case .loading:
             view = AnyView(Loading())
-//        case .mainMenu:
-//            view = AnyView(MainMenu())
+        case .mainMenu:
+            view = AnyView(Menu())
 //        case .settings:
 //            view = AnyView(Settings())
 //        case .howToPlay:
