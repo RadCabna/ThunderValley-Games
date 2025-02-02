@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Game: View {
     @AppStorage("yourThunderSet") var yourThunderSet = 1
+    @AppStorage("selectedThunder") var selectedThunder = 1
     @State private var offsetX: CGFloat = 0
     @State private var offsetY: CGFloat = 0
     @State private var shadowOpacity: CGFloat = 0
@@ -204,8 +205,15 @@ struct Game: View {
                                         .padding(.vertical)
                                 )
                         }
+                        Color.black.opacity(shadowOpacity)
                         if pauseTapped {
                             Pause(pauseTapped: $pauseTapped)
+                        }
+                        if playerOneWin {
+                            PlayerOneWin(playerOneWin: $playerOneWin)
+                        }
+                        if playerTwoWin {
+                            PlayerTwoWin(playerTwoWin: $playerTwoWin)
                         }
                     }
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
@@ -278,12 +286,56 @@ struct Game: View {
             showShadow()
         }
         
+        .onChange(of: playerOneWin) { _ in
+            showShadow()
+            if playerOneWin {
+                restartGame()
+            }
+        }
+        
+        .onChange(of: playerTwoWin) { _ in
+            showShadow()
+            if playerTwoWin {
+                restartGame()
+            }
+        }
+        
         .onAppear {
-            AppDelegate().setOrientation(to: .landscapeLeft)
+            updateThunderSet()
             startTimerForRectangleStroke()
             showPosibleMoves()
             print("width: \(screenWidth)")
             print("height: \(screenHeight)")
+        }
+    }
+    
+    func updateThunderSet() {
+        switch selectedThunder {
+        case 2:
+            yourThunder = "yellowThunder"
+            enemyThunder = "redThunder"
+            linesOnGameField = Arrays.yellowLinesOnGameField
+            enemyLinesOnGameField = Arrays.redLinesOnGameField
+        case 3:
+            yourThunder = "redThunder"
+            enemyThunder = "blueThunder"
+            linesOnGameField = Arrays.redLinesOnGameField
+            enemyLinesOnGameField = Arrays.blueLinesOnGameField
+        case 4:
+            yourThunder = "violetThunder"
+            enemyThunder = "redThunder"
+            linesOnGameField = Arrays.violetLinesOnGameField
+            enemyLinesOnGameField = Arrays.redLinesOnGameField
+        case 5:
+            yourThunder = "lightBlueThunder"
+            enemyThunder = "redThunder"
+            linesOnGameField = Arrays.lightBlueLinesOnGameField
+            enemyLinesOnGameField = Arrays.redLinesOnGameField
+        default:
+            yourThunder = "blueThunder"
+            enemyThunder = "redThunder"
+            linesOnGameField = Arrays.blueLinesOnGameField
+            enemyLinesOnGameField = Arrays.redLinesOnGameField
         }
     }
     
@@ -402,6 +454,11 @@ struct Game: View {
                 rectanglesOnGameField[i][j].lineCollect = false
                 rectanglesOnGameField[i][j].strokeActive = false
                 rectanglesOnGameField[i][j].isSelect = false
+            }
+        }
+        for i in 0..<linesOnGameField.count {
+            for j in 0..<linesOnGameField[i].count {
+                linesOnGameField[i][j].lineActive = false
             }
         }
         stopTimer()

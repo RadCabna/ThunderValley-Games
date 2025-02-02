@@ -15,13 +15,13 @@ struct YouLose: View {
             Image("playerTwoWinFrame")
                 .resizable()
                 .scaledToFit()
-                .frame(height: screenHeight*0.5)
+                .frame(height: screenWidth*0.25)
             VStack {
-                Button(text: "RETRY", size: 0.13)
+                Button(text: "RETRY", size: screenWidth*0.13)
                     .onTapGesture {
                         youLose.toggle()
                     }
-                Button(text: "MENU", size: 0.13)
+                Button(text: "MENU", size: screenWidth*0.13)
                     .onTapGesture {
                         coordinator.navigate(to: .mainMenu)
                     }

@@ -16,34 +16,34 @@ struct YouWin: View {
             Image("winFrame")
                 .resizable()
                 .scaledToFit()
-                .frame(height: screenHeight*0.6)
+                .frame(height: screenWidth*0.29)
             VStack {
                 Image("coinCountFrame")
                       .resizable()
                       .scaledToFit()
-                      .frame(height: screenHeight*0.1)
+                      .frame(height: screenWidth*0.05)
                       .overlay(
                       Text("+10")
-                          .font(Font.custom("Helvetica-bold", size: screenHeight*0.07))
+                        .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
                           .foregroundColor(.white)
                           .shadow(color: .black, radius: 1)
                           .shadow(color: .black, radius: 1)
-                          .offset(x: screenHeight*0.045)
+                          .offset(x: screenWidth*0.022)
                       )
                 Spacer()
-                    .frame(height: screenHeight*0.04)
-                Button(text: "RETRY", size: 0.13)
+                    .frame(height: screenWidth*0.02)
+                Button(text: "RETRY", size: screenWidth*0.13)
                     .onTapGesture {
                         coinCount += 10
                         youWin.toggle()
                     }
-                Button(text: "MENU", size: 0.13)
+                Button(text: "MENU", size: screenWidth*0.13)
                     .onTapGesture {
                         coinCount += 10
                         coordinator.navigate(to: .mainMenu)
                     }
             }
-            .offset(y: screenHeight*0.055)
+            .offset(y: screenWidth*0.025)
         }
     }
 }

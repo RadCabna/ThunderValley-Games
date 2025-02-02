@@ -13,6 +13,8 @@ enum CoordinatorView: Equatable {
 //    case second
     case loading
     case mainMenu
+    case game
+    case inventory
 //    case settings
 //    case howToPlay
 //    case yourCivilization
@@ -30,6 +32,10 @@ final class Coordinator: ObservableObject {
             view = AnyView(Loading())
         case .mainMenu:
             view = AnyView(Menu())
+        case .game:
+            view = AnyView(Game())
+        case .inventory:
+            view = AnyView(Inventory())
 //        case .settings:
 //            view = AnyView(Settings())
 //        case .howToPlay:

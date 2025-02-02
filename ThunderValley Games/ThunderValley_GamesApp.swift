@@ -12,7 +12,7 @@ struct ThunderValley_GamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            Game()
+            ContentView()
         }
     }
 }
@@ -20,7 +20,7 @@ struct ThunderValley_GamesApp: App {
 class AppDelegate: NSObject {
     @AppStorage("levelInfo") var level = false
     @AppStorage("valid") var validationIsOn = false
-    static var orientationLock = UIInterfaceOrientationMask.portrait
+    static var orientationLock = UIInterfaceOrientationMask.all
     private var validationPerformed = false
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
@@ -90,10 +90,10 @@ class AppDelegate: NSObject {
 
 extension AppDelegate: UIApplicationDelegate {
 
-    func application1(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return AppDelegate.orientationLock
+//    func application1(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+//        return AppDelegate.orientationLock
 
-    }
+//    }
     
     func setOrientation(to orientation: UIInterfaceOrientation) {
         switch orientation {

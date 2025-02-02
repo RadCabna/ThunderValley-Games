@@ -15,13 +15,13 @@ struct Pause: View {
             Image("playerTwoWinFrame")
                 .resizable()
                 .scaledToFit()
-                .frame(height: screenHeight*0.5)
+                .frame(height: screenWidth*0.25)
             VStack {
-                Button(text: "RESUME", size: 0.13)
+                Button(text: "RESUME", size: screenWidth*0.13)
                     .onTapGesture {
                         pauseTapped.toggle()
                     }
-                Button(text: "MENU", size: 0.13)
+                Button(text: "MENU", size: screenWidth*0.13)
                     .onTapGesture {
                         coordinator.navigate(to: .mainMenu)
                     }

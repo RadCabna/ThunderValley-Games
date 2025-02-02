@@ -28,6 +28,7 @@
 		DDBA75632D4EC1A800B2734C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBA75622D4EC1A800B2734C /* Menu.swift */; };
 		DDBA75652D4EC9EF00B2734C /* Pause.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBA75642D4EC9EF00B2734C /* Pause.swift */; };
 		DDE0E9AA2D4A8F9500B96B0A /* helvetica_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DDE0E9A92D4A8F9500B96B0A /* helvetica_bold.otf */; };
+		DDEB6EE02D4EED0300500F0E /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEB6EDF2D4EED0300500F0E /* Inventory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		DDBA75642D4EC9EF00B2734C /* Pause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pause.swift; sourceTree = "<group>"; };
 		DDE0E9A92D4A8F9500B96B0A /* helvetica_bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = helvetica_bold.otf; sourceTree = "<group>"; };
 		DDE0E9AB2D4A8FAC00B96B0A /* ThunderValley-Games-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ThunderValley-Games-Info.plist"; sourceTree = SOURCE_ROOT; };
+		DDEB6EDF2D4EED0300500F0E /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +117,10 @@
 			isa = PBXGroup;
 			children = (
 				DDA27F8C2D4A385700A05191 /* Loading.swift */,
+				DDBA75622D4EC1A800B2734C /* Menu.swift */,
+				DDEB6EDF2D4EED0300500F0E /* Inventory.swift */,
 				DDA27F882D4A37DD00A05191 /* Game.swift */,
 				DDBA75522D4E85CC00B2734C /* GameVSBot.swift */,
-				DDBA75622D4EC1A800B2734C /* Menu.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				DDBA755D2D4EA44000B2734C /* CoinCountFrame.swift in Sources */,
 				DDBA75592D4EA38100B2734C /* YouWin.swift in Sources */,
 				DDA27F912D4A38A500A05191 /* SizeExtention.swift in Sources */,
+				DDEB6EE02D4EED0300500F0E /* Inventory.swift in Sources */,
 				DDA27F932D4A391500A05191 /* ViewController.swift in Sources */,
 				DDA27F972D4A3AAE00A05191 /* Models.swift in Sources */,
 				DDBA75632D4EC1A800B2734C /* Menu.swift in Sources */,
