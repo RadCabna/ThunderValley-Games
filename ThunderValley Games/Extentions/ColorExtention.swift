@@ -13,7 +13,7 @@ import SwiftUI
 
 extension Color {
     
-    static let coloron = Color("colorOn")
-    static let coloroff = Color("colorOff")
-    static let colorotoggle = Color("colorToggle")
+    static let toggleon = Color("toggleOn")
+    static let toggleoff = Color("toggleOff")
+    static let toggleback = Color("toggleBack")
 }

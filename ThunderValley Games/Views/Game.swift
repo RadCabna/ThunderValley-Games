@@ -10,6 +10,8 @@ import SwiftUI
 struct Game: View {
     @AppStorage("yourThunderSet") var yourThunderSet = 1
     @AppStorage("selectedThunder") var selectedThunder = 1
+//    @AppStorage("pvp") var pvp = false
+    @State private var pvp = false
     @State private var offsetX: CGFloat = 0
     @State private var offsetY: CGFloat = 0
     @State private var shadowOpacity: CGFloat = 0
@@ -36,6 +38,7 @@ struct Game: View {
             }
         }
     }
+    @State private var randomeElement: (row: Int, col: Int) = (0,0)
     @State private var enemyCollectNewLine = false
     @State private var enemyLineCoordinatesArray: [(Int, Int)] = [] {
         didSet {
@@ -44,13 +47,18 @@ struct Game: View {
             }
         }
     }
+    @State private var botStepsCoordinates: [(row: Int, col: Int)] = []
     @State private var yourThunderCount = 9
     @State private var enemyThunderCount = 9
     @State private var rectangleStrokeWidthTimer: Timer? = nil
+    @State private var enemyWaitYourSteps: Timer? = nil
+    @State private var enemyCanMakeStep = false
     @State private var youCreateLine = false
     @State private var enemyCreateLine = false
     @State private var playerOneWin = false
     @State private var playerTwoWin = false
+    @State private var youWin = false
+    @State private var youLose = false
     @State private var pauseTapped = false
     var body: some View {
         ZStack {
@@ -166,7 +174,11 @@ struct Game: View {
                                             }
                                         }
                                         .onTapGesture {
-                                            makeStep(row: row, col: col)
+                                            if pvp {
+                                                makeStep(row: row, col: col)
+                                            } else {
+                                                makeStepWhenGameWithBot(row: row, col: col)
+                                            }
                                         }
                                     }
                                 }
@@ -210,10 +222,16 @@ struct Game: View {
                             Pause(pauseTapped: $pauseTapped)
                         }
                         if playerOneWin {
-                            PlayerOneWin(playerOneWin: $playerOneWin)
+                                PlayerOneWin(playerOneWin: $playerOneWin)
                         }
                         if playerTwoWin {
                             PlayerTwoWin(playerTwoWin: $playerTwoWin)
+                        }
+                        if youWin {
+                            YouWin(youWin: $youWin)
+                        }
+                        if youLose {
+                            YouLose(youLose: $youLose)
                         }
                     }
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
@@ -228,13 +246,21 @@ struct Game: View {
         
         .onChange(of: yourThunderCountOnGameField) { _ in
             if yourThunderCount + yourThunderCountOnGameField <= 2 {
-                playerTwoWin = true
+                if pvp {
+                    playerTwoWin = true
+                } else {
+                    youLose = true
+                }
             }
         }
         
         .onChange(of: enemyThunderCountOnGameField) { _ in
             if enemyThunderCount + enemyThunderCountOnGameField <= 2 {
-                playerOneWin = true
+                if pvp {
+                    playerOneWin = true
+                } else {
+                    youWin = true
+                }
             }
         }
         
@@ -254,6 +280,7 @@ struct Game: View {
             if youCollectNewLine {
                 yourStageNumber = 2
                 yourTurn = true
+                print("onChange yourTurn = true")
                 whenYouCollectLines()
                 youCollectNewLine = false
             }
@@ -263,6 +290,7 @@ struct Game: View {
             if enemyCollectNewLine {
                 enemyStageNumber = 2
                 yourTurn = false
+                print("onChange yourTurn = false")
                 whenEnemyCollectLines()
                 enemyCollectNewLine = false
             }
@@ -277,6 +305,23 @@ struct Game: View {
         
         .onChange(of: enemyStageNumber) { _ in
             print("enemyStageNumber: \(enemyStageNumber)")
+            if !pvp && enemyStageNumber == 2 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    updateBotStepsForStageTwo()
+                    rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                    yourThunderCountOnGameField -= 1
+                    checkLines()
+                    yourTurn.toggle()
+                    print("enemy step on Stage two")
+                    if enemyThunderCount > 0 {
+                        enemyStageNumber = 1
+                        showPosibleMoves()
+                    } else {
+                        enemyStageNumber = 3
+                        clearPlate()
+                    }
+                }
+            }
             if enemyStageNumber == 3 {
                 clearPlate()
             }
@@ -288,14 +333,28 @@ struct Game: View {
         
         .onChange(of: playerOneWin) { _ in
             showShadow()
-            if playerOneWin {
+            if !playerOneWin {
                 restartGame()
             }
         }
         
         .onChange(of: playerTwoWin) { _ in
             showShadow()
-            if playerTwoWin {
+            if !playerTwoWin {
+                restartGame()
+            }
+        }
+        
+        .onChange(of: youWin) { _ in
+            showShadow()
+            if !youWin {
+                restartGame()
+            }
+        }
+        
+        .onChange(of: youLose) { _ in
+            showShadow()
+            if !youLose {
                 restartGame()
             }
         }
@@ -340,7 +399,7 @@ struct Game: View {
     }
     
     func showShadow() {
-        if playerOneWin || playerTwoWin || pauseTapped{
+        if playerOneWin || playerTwoWin || youWin || youLose || pauseTapped{
                 withAnimation() {
                     shadowOpacity = 0.7
             }
@@ -348,6 +407,173 @@ struct Game: View {
                 withAnimation() {
                     shadowOpacity = 0
             }
+        }
+    }
+    
+    func updateBotStepsForStageOne() {
+        botStepsCoordinates = rectanglesOnGameField
+            .enumerated()
+            .flatMap { rowIndex, row in
+                row.enumerated().compactMap { colIndex, array in
+                    (array.strokeActive) ? (rowIndex, colIndex) : nil
+                }
+            }
+        randomeElement = botStepsCoordinates.randomElement() ?? (0,0)
+    }
+    
+    func updateBotStepsForStageTwo() {
+        botStepsCoordinates = rectanglesOnGameField
+            .enumerated()
+            .flatMap { rowIndex, row in
+                row.enumerated().compactMap { colIndex, array in
+                    (array.strokeActive && array.haveThunder) ? (rowIndex, colIndex) : nil
+                }
+            }
+        randomeElement = botStepsCoordinates.randomElement() ?? (0,0)
+    }
+    
+    func updateBotStepsForStageThree_1() {
+        botStepsCoordinates = rectanglesOnGameField
+            .enumerated()
+            .flatMap { rowIndex, row in
+                row.enumerated().compactMap { colIndex, array in
+                    (!array.yourThunder && array.haveThunder) ? (rowIndex, colIndex) : nil
+                }
+            }
+        repeat {
+            clearPlate()
+            randomeElement = botStepsCoordinates.randomElement() ?? (0,0)
+            rectanglesOnGameField[randomeElement.row][randomeElement.col].isSelect = true
+            findEnableStepsForSelectedRectangle()
+        }
+        while rectanglesOnGameField[randomeElement.row][randomeElement.col].strokeColor == Color.red
+                if rectanglesOnGameField[randomeElement.row][randomeElement.col].strokeColor != Color.red {
+            enemyCanMakeStep = true
+        }
+    }
+    
+    func updateBotStepsForStageThree_2() {
+        botStepsCoordinates = rectanglesOnGameField
+            .enumerated()
+            .flatMap { rowIndex, row in
+                row.enumerated().compactMap { colIndex, array in
+                    (array.strokeActive && !array.haveThunder) ? (rowIndex, colIndex) : nil
+                }
+            }
+        randomeElement = botStepsCoordinates.randomElement() ?? (0,0)
+    }
+    
+    func makeStepWhenGameWithBot(row: Int, col: Int) {
+        if yourStageNumber == 1 || enemyStageNumber == 1 {
+            if yourTurn && !rectanglesOnGameField[row][col].haveThunder && yourStageNumber == 1{
+                rectanglesOnGameField[row][col].haveThunder.toggle()
+                rectanglesOnGameField[row][col].yourThunder = yourTurn
+                checkLines()
+                yourTurn.toggle()
+                print("step yourTurn.toggle()")
+                showPosibleMoves()
+                yourThunderCount -= 1
+                yourThunderCountOnGameField += 1
+                print("your step on Stage one")
+            }
+            if !yourTurn && enemyStageNumber == 1 && yourStageNumber != 2{
+                updateBotStepsForStageOne()
+                enemyWaitYourSteps = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: true) { _ in
+                    print("startStageTimer")
+                        if !yourTurn && enemyStageNumber == 1 && yourStageNumber != 2{
+                            rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                            rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
+                            checkLines()
+                            yourTurn.toggle()
+                            print("step yourTurn.toggle()")
+                            showPosibleMoves()
+                            enemyThunderCount -= 1
+                            enemyThunderCountOnGameField += 1
+                            print("enemy step on Stage one")
+                stopWaitingEnamyTimer()
+                    }
+                }
+            }
+        }
+        if yourStageNumber == 2 || enemyStageNumber == 2 {
+            if yourTurn && rectanglesOnGameField[row][col].strokeActive &&
+                rectanglesOnGameField[row][col].haveThunder {
+                rectanglesOnGameField[row][col].haveThunder.toggle()
+                enemyThunderCountOnGameField -= 1
+                checkLines()
+                yourTurn.toggle()
+                print("your step on Stage two")
+                if yourThunderCount > 0 {
+                    yourStageNumber = 1
+                    showPosibleMoves()
+                } else {
+                    yourStageNumber = 3
+                    clearPlate()
+                }
+            }
+            if !yourTurn && enemyStageNumber == 2{
+                print("botSageTwo")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    updateBotStepsForStageTwo()
+                    rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                    yourThunderCountOnGameField -= 1
+                    checkLines()
+                    yourTurn.toggle()
+                    print("enemy step on Stage two")
+                    if enemyThunderCount > 0 {
+                        enemyStageNumber = 1
+                        showPosibleMoves()
+                    } else {
+                        enemyStageNumber = 3
+                        clearPlate()
+                    }
+                }
+            }
+        }
+       if yourStageNumber == 3 || enemyStageNumber == 3 {
+            if yourTurn {
+                if rectanglesOnGameField[row][col].yourThunder &&
+                    rectanglesOnGameField[row][col].haveThunder {
+                    clearPlate()
+                    rectanglesOnGameField[row][col].isSelect = true
+                    findEnableStepsForSelectedRectangle()
+                    rectangleStroWidth = 5
+                }
+                if  !rectanglesOnGameField[row][col].haveThunder && rectanglesOnGameField[row][col].strokeActive {
+                    rectanglesOnGameField[row][col].haveThunder.toggle()
+                    rectanglesOnGameField[row][col].yourThunder = yourTurn
+                    rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
+                    clearPlate()
+                    checkLines()
+                    yourTurn.toggle()
+                    stopWaitingEnamyTimer()
+                }
+            }
+           if !yourTurn && enemyStageNumber == 3 && !youWin{
+               stopWaitingEnamyTimer()
+               enemyWaitYourSteps = Timer.scheduledTimer(withTimeInterval: TimeInterval(2.5), repeats: true) { _ in
+                   print("stage3TimerStart")
+                   if !yourTurn {
+                       stopWaitingEnamyTimer()
+                       DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                           updateBotStepsForStageThree_1()
+                           rectangleStroWidth = 5
+                       }
+                           DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                               if enemyCanMakeStep {
+                               updateBotStepsForStageThree_2()
+                               rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                               rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
+                               rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
+                               clearPlate()
+                               checkLines()
+                               yourTurn.toggle()
+                               print("yourTurn Toggle by enemy")
+                           }
+                       }
+                   }
+               }
+           }
         }
     }
     
@@ -444,6 +670,8 @@ struct Game: View {
     }
     
     func restartGame() {
+        yourStageNumber = 1
+        enemyStageNumber = 1
         yourThunderCount = 9
         enemyThunderCount = 9
         yourThunderCountOnGameField = 0
@@ -533,6 +761,9 @@ struct Game: View {
         if enableStpsCount == 0 {
             rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].strokeActive = true
             rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].strokeColor = Color.red
+            if !yourTurn {
+                print("ALARM!!!!")
+            }
         } else {
             rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].strokeActive = true
             rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].strokeColor = Color("canMoveColor")
@@ -642,6 +873,11 @@ struct Game: View {
                 }
             }
         }
+    }
+    
+    func stopWaitingEnamyTimer() {
+        enemyWaitYourSteps?.invalidate()
+        enemyWaitYourSteps = nil
     }
     
     func stopTimer() {

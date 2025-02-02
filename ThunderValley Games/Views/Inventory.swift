@@ -22,9 +22,9 @@ struct Inventory: View {
                       .scaledToFit()
                       .frame(height: screenWidth*0.05)
                       .onTapGesture {
-                          coordinator.navigate(to: .mainMenu)
-//                          shopItemsData = [2,1,1,1,1]
-//                          saveItemData()
+//                          coordinator.navigate(to: .mainMenu)
+                          shopItemsData = [2,1,1,1,1]
+                          saveItemData()
                       }
                 Spacer()
                 Image("coinCountFrame")

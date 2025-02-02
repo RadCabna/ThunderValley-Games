@@ -12,7 +12,7 @@ struct YouLose: View {
     @Binding var youLose: Bool
     var body: some View {
         ZStack {
-            Image("playerTwoWinFrame")
+            Image("loseFrame")
                 .resizable()
                 .scaledToFit()
                 .frame(height: screenWidth*0.25)

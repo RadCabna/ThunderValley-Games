@@ -9,17 +9,12 @@ import Foundation
 import SwiftUI
 
 enum CoordinatorView: Equatable {
-//    case first
-//    case second
     case loading
     case mainMenu
     case game
     case inventory
-//    case settings
-//    case howToPlay
-//    case yourCivilization
-//    case otherCivilization
-    
+    case howToPlay
+
 }
 
 final class Coordinator: ObservableObject {
@@ -36,18 +31,8 @@ final class Coordinator: ObservableObject {
             view = AnyView(Game())
         case .inventory:
             view = AnyView(Inventory())
-//        case .settings:
-//            view = AnyView(Settings())
-//        case .howToPlay:
-//            view = AnyView(HowToPlayView())
-//        case .yourCivilization:
-//            view = AnyView(YourCivilizationView())
-//        case .otherCivilization:
-//            view = AnyView(OtherCivilizationView())
-//        case .first:
-//            view = AnyView(FirstView())
-//        case .second:
-//            view = AnyView(SecondView())
+        case .howToPlay:
+            view = AnyView(HowToPlay())
         }
         return view
     }

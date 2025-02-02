@@ -51,6 +51,9 @@ struct Menu: View {
                                         coordinator.navigate(to: .inventory)
                                     }
                                 Button(text: "RULES", size: width*0.18)
+                                    .onTapGesture {
+                                        coordinator.navigate(to: .howToPlay)
+                                    }
                             }
                             Button(text: "SETTINGS", size: width*0.18)
                         }

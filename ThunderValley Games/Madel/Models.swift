@@ -37,6 +37,15 @@ struct ShopItem {
 
 class Arrays {
     
+    static var guidePlateArray = [
+    "guideImage1",
+    "guideImage2",
+    "guideImage3",
+    "guideImage4",
+    "guideImage5",
+    "guideImage6"
+    ]
+    
     static var shopItemsArray: [ShopItem] = [
     ShopItem(itemImage: "blueThunder", itemName: "BLUE THUNDER"),
     ShopItem(itemImage: "yellowThunder", itemName: "YELLOW THUNDER"),
