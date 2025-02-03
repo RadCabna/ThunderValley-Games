@@ -22,9 +22,9 @@ struct Inventory: View {
                       .scaledToFit()
                       .frame(height: screenWidth*0.05)
                       .onTapGesture {
-//                          coordinator.navigate(to: .mainMenu)
-                          shopItemsData = [2,1,1,1,1]
-                          saveItemData()
+                          coordinator.navigate(to: .mainMenu)
+//                          shopItemsData = [2,0,0,0,0]
+//                          saveItemData()
                       }
                 Spacer()
                 Image("coinCountFrame")
@@ -39,6 +39,9 @@ struct Inventory: View {
                           .shadow(color: .black, radius: 1)
                           .offset(x: screenWidth*0.022)
                       )
+                      .onTapGesture {
+                          coinCount += 50
+                      }
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()

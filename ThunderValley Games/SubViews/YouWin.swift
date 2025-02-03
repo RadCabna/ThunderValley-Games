@@ -10,6 +10,8 @@ import SwiftUI
 struct YouWin: View {
     @EnvironmentObject var coordinator: Coordinator
     @AppStorage("coinCount") var coinCount = 0
+    @AppStorage("sound") var sound = true
+    @AppStorage("vibration") var vibration = true
     @Binding var youWin: Bool
     var body: some View {
         ZStack {
@@ -44,6 +46,22 @@ struct YouWin: View {
                     }
             }
             .offset(y: screenWidth*0.025)
+        }
+        
+        .onAppear {
+            if sound {
+                SoundManager.instance.playSound(sound: "failSound")
+                if vibration {
+                    generateImpactFeedback(style: .heavy)
+                }
+            }
+        }
+    }
+    func generateImpactFeedback(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        if vibration {
+            generator.prepare()
+            generator.impactOccurred()
         }
     }
 }

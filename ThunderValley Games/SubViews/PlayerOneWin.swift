@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PlayerOneWin: View {
     @EnvironmentObject var coordinator: Coordinator
+    @AppStorage("vibration") var vibration = true
+    @AppStorage("sound") var sound = true
     @Binding var playerOneWin: Bool
     var body: some View {
         ZStack {
@@ -27,6 +29,22 @@ struct PlayerOneWin: View {
                     }
             }
             .offset(y: screenHeight*0.055)
+        }
+        
+        .onAppear {
+            if sound {
+                SoundManager.instance.playSound(sound: "failSound")
+                if vibration {
+                    generateImpactFeedback(style: .heavy)
+                }
+            }
+        }
+    }
+    func generateImpactFeedback(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        if vibration {
+            generator.prepare()
+            generator.impactOccurred()
         }
     }
 }

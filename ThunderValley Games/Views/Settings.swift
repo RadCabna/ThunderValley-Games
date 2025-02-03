@@ -76,6 +76,15 @@ struct Settings: View {
                         .offset(y: screenWidth*0.03)
                   )
         }
+        
+        .onChange(of: music) { _ in
+            if !music {
+                SoundManager.instance.stopAllSounds()
+            } else {
+                SoundManager.instance.playSound(sound: "mainThemeSound")
+            }
+        }
+        
     }
     
     func openAppStoreForRating() {

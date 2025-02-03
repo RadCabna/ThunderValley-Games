@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Loading: View {
     @EnvironmentObject var coordinator: Coordinator
+    @AppStorage("completeLevel") var completeLevel = false
     @State private var loadingArray = Arrays.loadingArray
     @State private var loadingImage = "loadingThunder1"
     @State private var timer: Timer? = nil
@@ -54,15 +55,23 @@ struct Loading: View {
             }
         }
         
+        .onChange(of: completeLevel) { _ in
+            if completeLevel {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    coordinator.navigate(to: .mainMenu)
+                }
+            }
+        }
+        
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 AppDelegate().setOrientation(to: .landscapeLeft)
             }
             opacityAnimation()
             startTimer()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                coordinator.navigate(to: .mainMenu)
-            }
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//                coordinator.navigate(to: .mainMenu)
+//            }
         }
         
     }

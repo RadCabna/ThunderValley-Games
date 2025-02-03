@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct Game: View {
+    @AppStorage("sound") var sound = true
+    @AppStorage("vibration") var vibration = true
     @AppStorage("yourThunderSet") var yourThunderSet = 1
     @AppStorage("selectedThunder") var selectedThunder = 1
-//    @AppStorage("pvp") var pvp = false
-    @State private var pvp = false
+    @AppStorage("pvp") var pvp = true
+//    @State private var pvp = false
     @State private var offsetX: CGFloat = 0
     @State private var offsetY: CGFloat = 0
     @State private var shadowOpacity: CGFloat = 0
@@ -279,6 +281,14 @@ struct Game: View {
         .onChange(of: youCollectNewLine) { _ in
             if youCollectNewLine {
                 yourStageNumber = 2
+                if sound {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        SoundManager.instance.playSound(sound: "lineSound1")
+                        if vibration {
+                            generateImpactFeedback(style: .heavy)
+                        }
+                    }
+                }
                 yourTurn = true
                 print("onChange yourTurn = true")
                 whenYouCollectLines()
@@ -289,6 +299,14 @@ struct Game: View {
         .onChange(of: enemyCollectNewLine) { _ in
             if enemyCollectNewLine {
                 enemyStageNumber = 2
+                if sound {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        SoundManager.instance.playSound(sound: "lineSound1")
+                        if vibration {
+                            generateImpactFeedback(style: .heavy)
+                        }
+                    }
+                }
                 yourTurn = false
                 print("onChange yourTurn = false")
                 whenEnemyCollectLines()
@@ -468,6 +486,9 @@ struct Game: View {
             if yourTurn && !rectanglesOnGameField[row][col].haveThunder && yourStageNumber == 1{
                 rectanglesOnGameField[row][col].haveThunder.toggle()
                 rectanglesOnGameField[row][col].yourThunder = yourTurn
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 checkLines()
                 yourTurn.toggle()
                 print("step yourTurn.toggle()")
@@ -483,6 +504,9 @@ struct Game: View {
                         if !yourTurn && enemyStageNumber == 1 && yourStageNumber != 2{
                             rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
                             rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
+                            if sound {
+                                SoundManager.instance.playSound(sound: "tapSound1")
+                            }
                             checkLines()
                             yourTurn.toggle()
                             print("step yourTurn.toggle()")
@@ -502,6 +526,9 @@ struct Game: View {
                 enemyThunderCountOnGameField -= 1
                 checkLines()
                 yourTurn.toggle()
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 print("your step on Stage two")
                 if yourThunderCount > 0 {
                     yourStageNumber = 1
@@ -518,6 +545,9 @@ struct Game: View {
                     rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
                     yourThunderCountOnGameField -= 1
                     checkLines()
+                    if sound {
+                        SoundManager.instance.playSound(sound: "tapSound1")
+                    }
                     yourTurn.toggle()
                     print("enemy step on Stage two")
                     if enemyThunderCount > 0 {
@@ -545,6 +575,9 @@ struct Game: View {
                     rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
                     clearPlate()
                     checkLines()
+                    if sound {
+                        SoundManager.instance.playSound(sound: "tapSound1")
+                    }
                     yourTurn.toggle()
                     stopWaitingEnamyTimer()
                 }
@@ -567,6 +600,9 @@ struct Game: View {
                                rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
                                clearPlate()
                                checkLines()
+                                   if sound {
+                                       SoundManager.instance.playSound(sound: "tapSound1")
+                                   }
                                yourTurn.toggle()
                                print("yourTurn Toggle by enemy")
                            }
@@ -579,7 +615,11 @@ struct Game: View {
     
     func makeStep(row: Int, col: Int) {
         if yourStageNumber == 1 || enemyStageNumber == 1 {
-            if yourTurn && !rectanglesOnGameField[row][col].haveThunder && yourStageNumber == 1{
+            if yourTurn && !rectanglesOnGameField[row][col].haveThunder &&
+                yourStageNumber == 1{
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 rectanglesOnGameField[row][col].haveThunder.toggle()
                 rectanglesOnGameField[row][col].yourThunder = yourTurn
                 checkLines()
@@ -590,6 +630,9 @@ struct Game: View {
                 print("your step on Stage one")
             }
             if !yourTurn && !rectanglesOnGameField[row][col].haveThunder && enemyStageNumber == 1{
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 rectanglesOnGameField[row][col].haveThunder.toggle()
                 rectanglesOnGameField[row][col].yourThunder = yourTurn
                 checkLines()
@@ -605,6 +648,9 @@ struct Game: View {
                 rectanglesOnGameField[row][col].haveThunder {
                 rectanglesOnGameField[row][col].haveThunder.toggle()
                 enemyThunderCountOnGameField -= 1
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 checkLines()
                 yourTurn.toggle()
                 print("your step on Stage two")
@@ -619,6 +665,9 @@ struct Game: View {
                         rectanglesOnGameField[row][col].haveThunder {
                 rectanglesOnGameField[row][col].haveThunder.toggle()
                 yourThunderCountOnGameField -= 1
+                if sound {
+                    SoundManager.instance.playSound(sound: "tapSound1")
+                }
                 checkLines()
                 yourTurn.toggle()
                 print("enemy step on Stage two")
@@ -646,6 +695,9 @@ struct Game: View {
                     rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
                     clearPlate()
                     checkLines()
+                    if sound {
+                        SoundManager.instance.playSound(sound: "tapSound1")
+                    }
                     yourTurn.toggle()
                 }
             }
@@ -663,6 +715,9 @@ struct Game: View {
                    rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
                    clearPlate()
                    checkLines()
+                   if sound {
+                       SoundManager.instance.playSound(sound: "tapSound1")
+                   }
                    yourTurn.toggle()
                }
            }
@@ -956,6 +1011,14 @@ struct Game: View {
             if enemyLineCoordinatesArray.contains(where: {$0 == (lx1, ly1)}) {
                 enemyLineCoordinatesArray.removeAll(where: {$0 == (lx1, ly1)})
             }
+        }
+    }
+    
+    func generateImpactFeedback(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        if vibration {
+            generator.prepare()
+            generator.impactOccurred()
         }
     }
     

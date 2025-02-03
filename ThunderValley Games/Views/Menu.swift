@@ -10,6 +10,8 @@ import SwiftUI
 struct Menu: View {
     @EnvironmentObject var coordinator: Coordinator
     @AppStorage("coinCount") var coinCount = 0
+    @AppStorage("music") var music = true
+    @AppStorage("pvp") var pvp = true
     var body: some View {
         ZStack {
             Background()
@@ -22,14 +24,14 @@ struct Menu: View {
                         Image("coinCountFrame")
                               .resizable()
                               .scaledToFit()
-                              .frame(height: width*0.05)
+                              .frame(height: width*0.0574)
                               .overlay(
                               Text("\(coinCount)")
-                                  .font(Font.custom("Helvetica-bold", size: width*0.035))
+                                  .font(Font.custom("Helvetica-bold", size: width*0.04))
                                   .foregroundColor(.white)
                                   .shadow(color: .black, radius: 1)
                                   .shadow(color: .black, radius: 1)
-                                  .offset(x: width*0.022)
+                                  .offset(x: width*0.025)
                               )
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                             .padding()
@@ -42,8 +44,13 @@ struct Menu: View {
                                 Button(text: "2 PLAYERS", size: width*0.18)
                                     .onTapGesture {
                                         coordinator.navigate(to: .game)
+                                        pvp = true
                                     }
                                 Button(text: "WITH AI", size: width*0.18)
+                                    .onTapGesture {
+                                        coordinator.navigate(to: .game)
+                                        pvp = false
+                                    }
                             }
                             HStack {
                                 Button(text: "INVENTORY", size: width*0.18)
@@ -56,6 +63,9 @@ struct Menu: View {
                                     }
                             }
                             Button(text: "SETTINGS", size: width*0.18)
+                                .onTapGesture {
+                                    coordinator.navigate(to: .settings)
+                                }
                         }
                     }
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
@@ -65,9 +75,10 @@ struct Menu: View {
             }
         }
         .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                AppDelegate().setOrientation(to: .landscapeLeft)
-//            }
+            SoundManager.instance.stopAllSounds()
+            if music {
+                SoundManager.instance.playSound(sound: "mainThemeSound")
+            }
         }
     }
 }
