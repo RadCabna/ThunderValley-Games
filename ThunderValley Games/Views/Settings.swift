@@ -18,33 +18,33 @@ struct Settings: View {
             Background()
             HStack {
                 Image("backButton")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .onTapGesture {
-                          coordinator.navigate(to: .mainMenu)
-                      }
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .onTapGesture {
+                        coordinator.navigate(to: .mainMenu)
+                    }
                 Spacer()
                 Image("coinCountFrame")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .overlay(
-                      Text("\(coinCount)")
-                          .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
-                          .foregroundColor(.white)
-                          .shadow(color: .black, radius: 1)
-                          .shadow(color: .black, radius: 1)
-                          .offset(x: screenWidth*0.022)
-                      )
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .overlay(
+                        Text("\(coinCount)")
+                            .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
+                            .foregroundColor(.white)
+                            .shadow(color: .black, radius: 1)
+                            .shadow(color: .black, radius: 1)
+                            .offset(x: screenWidth*0.022)
+                    )
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
             Image("settingsFrame")
-                  .resizable()
-                  .scaledToFit()
-                  .frame(width: screenWidth*0.34)
-                  .overlay(
+                .resizable()
+                .scaledToFit()
+                .frame(width: screenWidth*0.34)
+                .overlay(
                     VStack(spacing:screenHeight*0.01) {
                         Text("MUSIC")
                             .font(Font.custom("Helvetica-bold", size: screenWidth*0.025))
@@ -74,7 +74,7 @@ struct Settings: View {
                             .padding(.top,screenWidth*0.01)
                     }
                         .offset(y: screenWidth*0.03)
-                  )
+                )
         }
         
         .onChange(of: music) { _ in
@@ -107,7 +107,7 @@ import SwiftUI
 struct CustomToggle: ToggleStyle {
     var screenHeight = UIScreen.main.bounds.height
     var screenWidth = UIScreen.main.bounds.width
-
+    
     func makeBody(configuration: Configuration) -> some View {
         HStack {
             ZStack {

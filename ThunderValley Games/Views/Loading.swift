@@ -69,9 +69,6 @@ struct Loading: View {
             }
             opacityAnimation()
             startTimer()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-//                coordinator.navigate(to: .mainMenu)
-//            }
         }
         
     }

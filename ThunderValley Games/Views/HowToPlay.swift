@@ -17,50 +17,50 @@ struct HowToPlay: View {
             Background()
             HStack {
                 Image("backButton")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .onTapGesture {
-                          coordinator.navigate(to: .mainMenu)
-                      }
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .onTapGesture {
+                        coordinator.navigate(to: .mainMenu)
+                    }
                 Spacer()
                 Image("coinCountFrame")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .overlay(
-                      Text("\(coinCount)")
-                          .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
-                          .foregroundColor(.white)
-                          .shadow(color: .black, radius: 1)
-                          .shadow(color: .black, radius: 1)
-                          .offset(x: screenWidth*0.022)
-                      )
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .overlay(
+                        Text("\(coinCount)")
+                            .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
+                            .foregroundColor(.white)
+                            .shadow(color: .black, radius: 1)
+                            .shadow(color: .black, radius: 1)
+                            .offset(x: screenWidth*0.022)
+                    )
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
             HStack {
                 Image("backButton")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .opacity(guideNumber == 0 ? 0 : 1)
-                      .onTapGesture {
-                          changeGuideAnimation(direction: -1)
-                      }
-                      .disabled(guideNumber == 0)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .opacity(guideNumber == 0 ? 0 : 1)
+                    .onTapGesture {
+                        changeGuideAnimation(direction: -1)
+                    }
+                    .disabled(guideNumber == 0)
                 Spacer()
                     .frame(width: screenWidth*0.5)
                 Image("backButton")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .scaleEffect(-1)
-                      .opacity(guideNumber == 5 ? 0 : 1)
-                      .onTapGesture {
-                          changeGuideAnimation(direction: 1)
-                      }
-                      .disabled(guideNumber == 5)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .scaleEffect(-1)
+                    .opacity(guideNumber == 5 ? 0 : 1)
+                    .onTapGesture {
+                        changeGuideAnimation(direction: 1)
+                    }
+                    .disabled(guideNumber == 5)
             }
             Image(guideArray[guideNumber])
                 .resizable()

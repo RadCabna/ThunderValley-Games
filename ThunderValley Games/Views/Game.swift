@@ -13,7 +13,6 @@ struct Game: View {
     @AppStorage("yourThunderSet") var yourThunderSet = 1
     @AppStorage("selectedThunder") var selectedThunder = 1
     @AppStorage("pvp") var pvp = true
-//    @State private var pvp = false
     @State private var offsetX: CGFloat = 0
     @State private var offsetY: CGFloat = 0
     @State private var shadowOpacity: CGFloat = 0
@@ -224,7 +223,7 @@ struct Game: View {
                             Pause(pauseTapped: $pauseTapped)
                         }
                         if playerOneWin {
-                                PlayerOneWin(playerOneWin: $playerOneWin)
+                            PlayerOneWin(playerOneWin: $playerOneWin)
                         }
                         if playerTwoWin {
                             PlayerTwoWin(playerTwoWin: $playerTwoWin)
@@ -418,12 +417,12 @@ struct Game: View {
     
     func showShadow() {
         if playerOneWin || playerTwoWin || youWin || youLose || pauseTapped{
-                withAnimation() {
-                    shadowOpacity = 0.7
+            withAnimation() {
+                shadowOpacity = 0.7
             }
         } else {
-                withAnimation() {
-                    shadowOpacity = 0
+            withAnimation() {
+                shadowOpacity = 0
             }
         }
     }
@@ -501,20 +500,20 @@ struct Game: View {
                 updateBotStepsForStageOne()
                 enemyWaitYourSteps = Timer.scheduledTimer(withTimeInterval: TimeInterval(2), repeats: true) { _ in
                     print("startStageTimer")
-                        if !yourTurn && enemyStageNumber == 1 && yourStageNumber != 2{
-                            rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
-                            rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
-                            if sound {
-                                SoundManager.instance.playSound(sound: "tapSound1")
-                            }
-                            checkLines()
-                            yourTurn.toggle()
-                            print("step yourTurn.toggle()")
-                            showPosibleMoves()
-                            enemyThunderCount -= 1
-                            enemyThunderCountOnGameField += 1
-                            print("enemy step on Stage one")
-                stopWaitingEnamyTimer()
+                    if !yourTurn && enemyStageNumber == 1 && yourStageNumber != 2{
+                        rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                        rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
+                        if sound {
+                            SoundManager.instance.playSound(sound: "tapSound1")
+                        }
+                        checkLines()
+                        yourTurn.toggle()
+                        print("step yourTurn.toggle()")
+                        showPosibleMoves()
+                        enemyThunderCount -= 1
+                        enemyThunderCountOnGameField += 1
+                        print("enemy step on Stage one")
+                        stopWaitingEnamyTimer()
                     }
                 }
             }
@@ -560,7 +559,7 @@ struct Game: View {
                 }
             }
         }
-       if yourStageNumber == 3 || enemyStageNumber == 3 {
+        if yourStageNumber == 3 || enemyStageNumber == 3 {
             if yourTurn {
                 if rectanglesOnGameField[row][col].yourThunder &&
                     rectanglesOnGameField[row][col].haveThunder {
@@ -582,34 +581,34 @@ struct Game: View {
                     stopWaitingEnamyTimer()
                 }
             }
-           if !yourTurn && enemyStageNumber == 3 && !youWin{
-               stopWaitingEnamyTimer()
-               enemyWaitYourSteps = Timer.scheduledTimer(withTimeInterval: TimeInterval(2.5), repeats: true) { _ in
-                   print("stage3TimerStart")
-                   if !yourTurn {
-                       stopWaitingEnamyTimer()
-                       DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                           updateBotStepsForStageThree_1()
-                           rectangleStroWidth = 5
-                       }
-                           DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                               if enemyCanMakeStep {
-                               updateBotStepsForStageThree_2()
-                               rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
-                               rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
-                               rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
-                               clearPlate()
-                               checkLines()
-                                   if sound {
-                                       SoundManager.instance.playSound(sound: "tapSound1")
-                                   }
-                               yourTurn.toggle()
-                               print("yourTurn Toggle by enemy")
-                           }
-                       }
-                   }
-               }
-           }
+            if !yourTurn && enemyStageNumber == 3 && !youWin{
+                stopWaitingEnamyTimer()
+                enemyWaitYourSteps = Timer.scheduledTimer(withTimeInterval: TimeInterval(2.5), repeats: true) { _ in
+                    print("stage3TimerStart")
+                    if !yourTurn {
+                        stopWaitingEnamyTimer()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            updateBotStepsForStageThree_1()
+                            rectangleStroWidth = 5
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            if enemyCanMakeStep {
+                                updateBotStepsForStageThree_2()
+                                rectanglesOnGameField[randomeElement.row][randomeElement.col].haveThunder.toggle()
+                                rectanglesOnGameField[randomeElement.row][randomeElement.col].yourThunder = yourTurn
+                                rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
+                                clearPlate()
+                                checkLines()
+                                if sound {
+                                    SoundManager.instance.playSound(sound: "tapSound1")
+                                }
+                                yourTurn.toggle()
+                                print("yourTurn Toggle by enemy")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -680,7 +679,7 @@ struct Game: View {
                 }
             }
         }
-       if yourStageNumber == 3 || enemyStageNumber == 3 {
+        if yourStageNumber == 3 || enemyStageNumber == 3 {
             if yourTurn {
                 if rectanglesOnGameField[row][col].yourThunder &&
                     rectanglesOnGameField[row][col].haveThunder {
@@ -701,26 +700,26 @@ struct Game: View {
                     yourTurn.toggle()
                 }
             }
-          else if !yourTurn {
-               if !rectanglesOnGameField[row][col].yourThunder &&
-                   rectanglesOnGameField[row][col].haveThunder {
-                   clearPlate()
-                   rectanglesOnGameField[row][col].isSelect = true
-                   findEnableStepsForSelectedRectangle()
-                   rectangleStroWidth = 5
-               }
-               if  !rectanglesOnGameField[row][col].haveThunder && rectanglesOnGameField[row][col].strokeActive {
-                   rectanglesOnGameField[row][col].haveThunder.toggle()
-                   rectanglesOnGameField[row][col].yourThunder = yourTurn
-                   rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
-                   clearPlate()
-                   checkLines()
-                   if sound {
-                       SoundManager.instance.playSound(sound: "tapSound1")
-                   }
-                   yourTurn.toggle()
-               }
-           }
+            else if !yourTurn {
+                if !rectanglesOnGameField[row][col].yourThunder &&
+                    rectanglesOnGameField[row][col].haveThunder {
+                    clearPlate()
+                    rectanglesOnGameField[row][col].isSelect = true
+                    findEnableStepsForSelectedRectangle()
+                    rectangleStroWidth = 5
+                }
+                if  !rectanglesOnGameField[row][col].haveThunder && rectanglesOnGameField[row][col].strokeActive {
+                    rectanglesOnGameField[row][col].haveThunder.toggle()
+                    rectanglesOnGameField[row][col].yourThunder = yourTurn
+                    rectanglesOnGameField[selectedRectangleRow][selectedRectangleCol].haveThunder.toggle()
+                    clearPlate()
+                    checkLines()
+                    if sound {
+                        SoundManager.instance.playSound(sound: "tapSound1")
+                    }
+                    yourTurn.toggle()
+                }
+            }
         }
     }
     

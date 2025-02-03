@@ -22,17 +22,17 @@ struct Menu: View {
                 if isLandscape {
                     ZStack {
                         Image("coinCountFrame")
-                              .resizable()
-                              .scaledToFit()
-                              .frame(height: width*0.0574)
-                              .overlay(
-                              Text("\(coinCount)")
-                                  .font(Font.custom("Helvetica-bold", size: width*0.04))
-                                  .foregroundColor(.white)
-                                  .shadow(color: .black, radius: 1)
-                                  .shadow(color: .black, radius: 1)
-                                  .offset(x: width*0.025)
-                              )
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: width*0.0574)
+                            .overlay(
+                                Text("\(coinCount)")
+                                    .font(Font.custom("Helvetica-bold", size: width*0.04))
+                                    .foregroundColor(.white)
+                                    .shadow(color: .black, radius: 1)
+                                    .shadow(color: .black, radius: 1)
+                                    .offset(x: width*0.025)
+                            )
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                             .padding()
                         VStack {
@@ -70,7 +70,7 @@ struct Menu: View {
                     }
                     .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 } else {
-                   
+                    
                 }
             }
         }

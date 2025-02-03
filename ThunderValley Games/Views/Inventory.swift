@@ -18,30 +18,25 @@ struct Inventory: View {
             Background()
             HStack {
                 Image("backButton")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .onTapGesture {
-                          coordinator.navigate(to: .mainMenu)
-//                          shopItemsData = [2,0,0,0,0]
-//                          saveItemData()
-                      }
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .onTapGesture {
+                        coordinator.navigate(to: .mainMenu)
+                    }
                 Spacer()
                 Image("coinCountFrame")
-                      .resizable()
-                      .scaledToFit()
-                      .frame(height: screenWidth*0.05)
-                      .overlay(
-                      Text("\(coinCount)")
-                          .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
-                          .foregroundColor(.white)
-                          .shadow(color: .black, radius: 1)
-                          .shadow(color: .black, radius: 1)
-                          .offset(x: screenWidth*0.022)
-                      )
-                      .onTapGesture {
-                          coinCount += 50
-                      }
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: screenWidth*0.05)
+                    .overlay(
+                        Text("\(coinCount)")
+                            .font(Font.custom("Helvetica-bold", size: screenWidth*0.035))
+                            .foregroundColor(.white)
+                            .shadow(color: .black, radius: 1)
+                            .shadow(color: .black, radius: 1)
+                            .offset(x: screenWidth*0.022)
+                    )
             }
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
@@ -52,7 +47,7 @@ struct Inventory: View {
                 .overlay(
                     HStack {
                         ForEach(0..<shopItemsArray.count, id: \.self) { item in
-                        Image("shopItemFrame")
+                            Image("shopItemFrame")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: screenWidth*0.15)
@@ -118,7 +113,6 @@ struct Inventory: View {
         }
         shopItemsData[item] = 2
         saveItemData()
-//        selectedThunder = shopItemsData[shopItemsData.firstIndex(where: {$0 == 2}) ?? 0] + 1
         selectedThunder = item + 1
         print(selectedThunder)
     }
