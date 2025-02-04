@@ -31,7 +31,7 @@ struct Loading: View {
                         Text("LOADING")
                             .font(Font.custom("Helvetica-bold", size: height*0.13))
                             .foregroundColor(.white)
-                            .shadow(color: .black, radius: 1)
+                            .shadow(color: .black, radius: 2)
                             .shadow(color: .black, radius: 1)
                     }
                     
