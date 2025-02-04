@@ -88,7 +88,7 @@ struct Settings: View {
     }
     
     func openAppStoreForRating() {
-        guard let appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/id7777777777?action=write-review") else {
+        guard let appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/id6741468545?action=write-review") else {
             return
         }
         if UIApplication.shared.canOpenURL(appStoreURL) {
