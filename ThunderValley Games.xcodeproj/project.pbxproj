@@ -35,7 +35,7 @@
 		DDEB6EEC2D50EDCC00500F0E /* tapSound1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EE82D50EDCC00500F0E /* tapSound1.mp3 */; };
 		DDEB6EED2D50EDCC00500F0E /* failSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EE92D50EDCC00500F0E /* failSound.mp3 */; };
 		DDEB6EF02D50EDD300500F0E /* mainThemeSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EEF2D50EDD300500F0E /* mainThemeSound.mp3 */; };
-		DDEB6EF32D50FA2D00500F0E /* codemagic (without pods).yaml in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EF22D50FA2D00500F0E /* codemagic (without pods).yaml */; };
+		DDEB6EF32D50FA2D00500F0E /* codemagic.yaml in Resources */ = {isa = PBXBuildFile; fileRef = DDEB6EF22D50FA2D00500F0E /* codemagic.yaml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,7 +71,7 @@
 		DDEB6EE92D50EDCC00500F0E /* failSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = failSound.mp3; sourceTree = "<group>"; };
 		DDEB6EEF2D50EDD300500F0E /* mainThemeSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mainThemeSound.mp3; sourceTree = "<group>"; };
 		DDEB6EF12D50F1C800500F0E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		DDEB6EF22D50FA2D00500F0E /* codemagic (without pods).yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = "codemagic (without pods).yaml"; sourceTree = "<group>"; };
+		DDEB6EF22D50FA2D00500F0E /* codemagic.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = codemagic.yaml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +106,7 @@
 			children = (
 				DDEB6EF12D50F1C800500F0E /* PrivacyInfo.xcprivacy */,
 				DDE0E9AB2D4A8FAC00B96B0A /* ThunderValley-Games-Info.plist */,
-				DDEB6EF22D50FA2D00500F0E /* codemagic (without pods).yaml */,
+				DDEB6EF22D50FA2D00500F0E /* codemagic.yaml */,
 				DDA27F712D4A370B00A05191 /* ThunderValley_GamesApp.swift */,
 				DDA27F802D4A377900A05191 /* Views */,
 				DDA27F852D4A37AD00A05191 /* SubViews */,
@@ -267,7 +267,7 @@
 				DDA27F762D4A370D00A05191 /* Assets.xcassets in Resources */,
 				DDEB6EEB2D50EDCC00500F0E /* lineSound1.mp3 in Resources */,
 				DDE0E9AA2D4A8F9500B96B0A /* helvetica_bold.otf in Resources */,
-				DDEB6EF32D50FA2D00500F0E /* codemagic (without pods).yaml in Resources */,
+				DDEB6EF32D50FA2D00500F0E /* codemagic.yaml in Resources */,
 				DDEB6EED2D50EDCC00500F0E /* failSound.mp3 in Resources */,
 				DDEB6EEC2D50EDCC00500F0E /* tapSound1.mp3 in Resources */,
 			);
