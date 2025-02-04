@@ -13,6 +13,7 @@ struct Settings: View {
     @AppStorage("music") var music = true
     @AppStorage("sound") var sound = true
     @AppStorage("vibration") var vibration = true
+    @AppStorage("isMusicPlaying") var isMusicPlaying = false
     var body: some View {
         ZStack {
             Background()
@@ -82,9 +83,12 @@ struct Settings: View {
                 SoundManager.instance.stopAllSounds()
             } else {
                 SoundManager.instance.playSound(sound: "mainThemeSound")
+                isMusicPlaying = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 115) {
+                    isMusicPlaying = false
+                }
             }
         }
-        
     }
     
     func openAppStoreForRating() {
@@ -95,7 +99,6 @@ struct Settings: View {
             UIApplication.shared.open(appStoreURL)
         }
     }
-    
 }
 
 #Preview {

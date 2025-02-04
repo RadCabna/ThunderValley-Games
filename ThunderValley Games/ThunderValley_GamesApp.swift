@@ -24,7 +24,6 @@ class AppDelegate: NSObject {
     private var validationPerformed = false
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-//        AppDelegate.orientationLock = .all
         if !validationPerformed {
             validation()
             validationPerformed = true
@@ -81,7 +80,6 @@ class AppDelegate: NSObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.completeLevel = false
             }
-//            AppDelegate.orientationLock = .portrait
         }
         print("yo1")
     }
@@ -89,11 +87,6 @@ class AppDelegate: NSObject {
 }
 
 extension AppDelegate: UIApplicationDelegate {
-
-//    func application1(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-//        return AppDelegate.orientationLock
-
-//    }
     
     func setOrientation(to orientation: UIInterfaceOrientation) {
         switch orientation {

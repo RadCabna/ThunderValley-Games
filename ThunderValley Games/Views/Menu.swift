@@ -12,6 +12,7 @@ struct Menu: View {
     @AppStorage("coinCount") var coinCount = 0
     @AppStorage("music") var music = true
     @AppStorage("pvp") var pvp = true
+    @AppStorage("isMusicPlaying") var isMusicPlaying = false
     var body: some View {
         ZStack {
             Background()
@@ -75,9 +76,14 @@ struct Menu: View {
             }
         }
         .onAppear {
-            SoundManager.instance.stopAllSounds()
-            if music {
+            if music && !isMusicPlaying{
+                SoundManager.instance.playSound(sound: "failSound")
                 SoundManager.instance.playSound(sound: "mainThemeSound")
+                isMusicPlaying = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 115) {
+                    isMusicPlaying = false
+                }
+                
             }
         }
     }
